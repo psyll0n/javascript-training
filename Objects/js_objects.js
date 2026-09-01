@@ -13,6 +13,7 @@ const updateBackpack = (update) => {
     console.info(update);
   };
   
+  // Object literal syntax
   const backpack = {
     name: "Everyday Backpack",
     volume: 30,
@@ -34,6 +35,7 @@ const updateBackpack = (update) => {
     },
   };
   
+  // Function to create the HTML markup for the backpack
   const markup = (backpack) => {
     return `
     <div>
@@ -51,6 +53,12 @@ const updateBackpack = (update) => {
   `;
   };
   
+  // Select the main element and append the backpack markup
   const main = document.createElement("main");
   main.innerHTML = markup(backpack);
   document.body.appendChild(main);
+
+  // Example of modifying backpack properties
+  backpack.color = "blue";
+  backpack.volume = 40;
+  updateBackpack(`Updated backpack properties. `);
