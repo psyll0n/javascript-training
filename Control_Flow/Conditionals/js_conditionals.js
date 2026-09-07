@@ -1,56 +1,81 @@
-// Conditional tests in JavaScript
+'use strict';
 
-var knowJavascript = true;
-console.log("The variable knowJavaScript is equal to " + knowJavascript + " and is a " + typeof knowJavascript);
+/**
+ * ============================================================================
+ * CONTROL FLOW: CONDITIONALS (if, else if, else)
+ * ============================================================================
+ * Conditional statements execute different blocks of code based on whether a
+ * condition evaluates to true or false (truthy or falsy).
+ *
+ * KEY CONCEPTS:
+ * 1. Strict Equality (`===`) vs Loose Equality (`==`):
+ *    - Always prefer `===` because it compares both TYPE and VALUE without type coercion.
+ *    - `==` performs implicit type conversion (e.g. `'5' == 5` is true, `'5' === 5` is false).
+ * 2. Blocks: Use curly braces `{}` for readability and maintainability.
+ */
 
-// IF statement examples
-if (knowJavascript) {
-  console.log("You know Javascript!");
+// ----------------------------------------------------------------------------
+// 1. Basic `if` Statement
+// ----------------------------------------------------------------------------
+const knowsJavaScript = true;
+console.log(`knowsJavaScript: ${knowsJavaScript} (type: ${typeof knowsJavaScript})`);
+
+if (knowsJavaScript) {
+  console.log('You are ready to write modern JavaScript!');
 }
 
-// The code below is equivalent to the code above.
-if (knowJavascript) console.log("You know Javascript!");
+// Single-line syntax (valid, but curly braces are recommended for clarity):
+if (knowsJavaScript) console.log('Single-line conditional executed.');
 
-var myValue = 5;
-console.log("myValue is equal to 5");
+// ----------------------------------------------------------------------------
+// 2. Strict Equality (`===`) vs Relational Operators
+// ----------------------------------------------------------------------------
+const score = 5;
 
-if (myValue == 5) {
-  console.log("myValue is equal to 5");
+if (score === 5) {
+  console.log('Score is strictly equal to 5.');
 }
 
+// ----------------------------------------------------------------------------
+// 3. `if...else` Statement
+// ----------------------------------------------------------------------------
+const temperature = 18;
 
-// IF - ELSE statement example.
-var myValue = 5;
-console.log("myValue is equal to 5");
-
-if (myValue < 5) {
-  console.log("This condition (myValue < 5) is true.");
+if (temperature >= 20) {
+  console.log('It is warm outside; no jacket required.');
 } else {
-  console.log("This condition (myValue < 5) is false.");
+  console.log('It is cool outside; consider wearing a light jacket.');
 }
 
+// ----------------------------------------------------------------------------
+// 4. `if...else if...else` Ladder
+// ----------------------------------------------------------------------------
+const userRole = 'editor';
 
-// IF - ELSE IF - ELSE statement example.
-var myValue = 5;
-console.log("myValue is equal to 5");
-
-if (myValue != 5) {
-  console.log("This condition (myValue != 5) is true.");
-} else if (myValue > 5) {
-  console.log("This condition (myValue > 5) is true.");
+if (userRole === 'admin') {
+  console.log('Access granted: Full administrative permissions.');
+} else if (userRole === 'editor') {
+  console.log('Access granted: Content editing permissions.');
+} else if (userRole === 'viewer') {
+  console.log('Access granted: Read-only permissions.');
 } else {
-  console.log("All conditions are false.");
+  console.log('Access denied: Unknown role.');
 }
 
+// ----------------------------------------------------------------------------
+// 5. Nested Conditionals
+// ----------------------------------------------------------------------------
+const age = 22;
+const hasValidID = true;
 
-// Nested IF statement example.
-var myValue = 5;
-console.log("myValue is equal to 5");
+if (age >= 18) {
+  console.log('User is of legal age.');
 
-if (myValue >= 1) {
-  console.log("This condition (myValue >= 1) is true.");
-
-  if (myValue <= 5) {
-    console.log("This condition (myValue <= 5) is true.");
+  if (hasValidID) {
+    console.log('User has valid identification: Entry permitted.');
+  } else {
+    console.log('Identification missing: Entry denied.');
   }
+} else {
+  console.log('User is underage: Entry denied.');
 }

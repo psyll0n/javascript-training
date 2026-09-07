@@ -1,49 +1,87 @@
-// Compoubd conditional statements in JS.
+'use strict';
 
-// Conditional evaluation using OR operator.
-if (true || false) {
-    console.log("Only one value needs to be true in an OR statement for the whole evaluation to be true ");
+/**
+ * ============================================================================
+ * CONTROL FLOW: COMPOUND CONDITIONALS & BOOLEAN LOGIC
+ * ============================================================================
+ * Compound conditionals combine multiple boolean expressions using logical
+ * operators:
+ * - AND (`&&`): Evaluates to true ONLY if ALL conditions are true.
+ * - OR (`||`): Evaluates to true if AT LEAST ONE condition is true.
+ * - NOT (`!`): Inverts the truthiness of a boolean value.
+ *
+ * PRECEDENCE:
+ * `!` has higher precedence than `&&`, which has higher precedence than `||`.
+ * Always use parentheses `()` to clarify grouping and intended order of evaluation.
+ */
+
+// ----------------------------------------------------------------------------
+// 1. Logical OR (||)
+// ----------------------------------------------------------------------------
+const hasDriverLicense = true;
+const hasGoodVision = false;
+
+// Evaluates to true because hasDriverLicense is true
+if (hasDriverLicense || hasGoodVision) {
+  console.log('Only one condition needs to be true for an OR (||) evaluation to pass.');
 }
 
+// ----------------------------------------------------------------------------
+// 2. Logical AND (&&)
+// ----------------------------------------------------------------------------
+const isTired = false;
 
-// Conditional evaluation using AND operator.
-if (true && false) {
-    //
+// Requires ALL operands to be true
+if (hasDriverLicense && !isTired) {
+  console.log('Driver has a license and is well-rested: Safe to drive!');
 } else {
-    console.log("Both values need to be true in an AND statement for the whole evaluation to be true ");
+  console.log('Driver cannot safely operate the vehicle.');
 }
 
+// ----------------------------------------------------------------------------
+// 3. Range Checking with Logical AND
+// ----------------------------------------------------------------------------
+const minLimit = 5;
+const maxLimit = 20;
+const testValue = 10;
 
-var myMaxLimit = 20;
-var myMinLimit = 5;
-
-var myValue = 10;
-
-if (myValue < myMaxLimit && myValue > myMinLimit) {
-    console.log("The value " + myValue + " is between " + myMinLimit + " and " + myMaxLimit);
+// Verify that testValue is strictly between minLimit and maxLimit
+if (testValue > minLimit && testValue < maxLimit) {
+  console.log(`Value ${testValue} falls strictly between ${minLimit} and ${maxLimit}.`);
 } else {
-    console.log("The value " + myValue + " is not between " + myMinLimit + " and " + myMaxLimit);
+  console.log(`Value ${testValue} is outside the range.`);
 }
 
+// ----------------------------------------------------------------------------
+// 4. Multi-Condition Grouping (Combining AND and OR)
+// ----------------------------------------------------------------------------
+const xMin = 1, xMax = 5;
+const yMin = 1, yMax = 3;
 
-// Evaluate multiple conditions using AND operator.
-var myMaxXLimit = 5;
-var myMinXLimit = 1;
-var myMaxYLimit = 3;
-var myMinYLimit = 1;
+const xCoord = 3;
+const yCoord = 2;
 
-var myXValue = 6;
-var myYValue = 2;
+// Check if a point (x, y) lies inside a bounded 2D coordinate rectangle:
+const isXInside = xCoord >= xMin && xCoord <= xMax;
+const isYInside = yCoord >= yMin && yCoord <= yMax;
 
-if ((myXValue < myMaxLimit && myXValue > myMinXLimit) && (myYValue < myMaxYLimit && myYValue > myMinYLimit)) {
-    console.log("Both the X and Y values are within the limits")
+if (isXInside && isYInside) {
+  console.log(`Coordinates (${xCoord}, ${yCoord}) are located within the target rectangle.`);
 } else {
-    console.log("One or both of the X and Y values are outside of the limits")
+  console.log(`Coordinates (${xCoord}, ${yCoord}) fall outside the boundaries.`);
 }
 
+// ----------------------------------------------------------------------------
+// 5. Logical NOT (!)
+// ----------------------------------------------------------------------------
+const isRegistered = false;
 
-// Conditional evaluation using NOT operator.
-var myBoolean = false;
-if (!myBoolean) {
-    console.log("NOT false is true");
+if (!isRegistered) {
+  console.log('!isRegistered: Inverting false results in true (user must register).');
 }
+
+// Double negation (!!) casts any value to its exact boolean equivalent:
+console.log('Boolean coercion with !!:');
+console.log('!!"hello":', !!"hello"); // true
+console.log('!!0:', !!0);             // false
+console.log('!!null:', !!null);       // false
