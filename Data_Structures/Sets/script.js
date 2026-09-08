@@ -97,7 +97,7 @@ console.log(ordersSet);
 // We can iterate over a Set as follows:
 for (const order of ordersSet) {
     console.log(order);
-}
+};
 
 // We can convert a Set to an array as follows:
 const ordersArray = [...ordersSet];
@@ -107,3 +107,18 @@ console.log(ordersArray);
 const ordersArray2 = ['Pasta', 'Pizza', 'Pasta', 'Risotto', 'Pizza', 'Pasta', 'Risotto'];
 const ordersSet2 = new Set(ordersArray2);
 console.log(ordersSet2);
+
+// It is possible to iterate over a Set as follows:
+for (const order of ordersSet2) {
+    console.log(order);
+}
+
+// Another example of iteration over a Set:
+// The main use of Set is to remove duplicates from an array.
+// The example below shows the removal of duplicate elements from an array:
+const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+const staffUnique = [...new Set(staff)];
+console.log(staffUnique);
+
+// Sets can also be used to count the number of unique letters in a string:
+console.log(new Set('Alexander').size);
