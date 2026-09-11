@@ -44,8 +44,12 @@ javascript-training/
 │   ├── Enhanced_Object_Literals/       # ES6 property/method shorthand and computed property names
 │   ├── Optional_Chaining/              # ES2020 ?. operator for nested properties, methods, and arrays
 │   ├── Modern_Operators/               # Object iteration with Object.keys(), values(), and entries()
-│   ├── Sets/                           # ES6 Set collection: uniqueness, operations, and deduplication
+│   ├── Sets/                           # ES6 Set collection: uniqueness, operations, deduplication & Set methods
+│   ├── Maps/                           # Key-value hash maps with arbitrary keys, chaining, iteration & object conversion
 │   └── README.md                       # Comprehensive guide: primitive & non-primitive data structures
+├── Working_with_Strings/               # Primitive strings, boxing, search, slice, casing, regex & normalization
+│   ├── index.html                      # HTML test runner
+│   └── script.js                       # String indexing, slicing, casing, regex replace, normalization & validation
 ├── OOP/                                # Object-Oriented Programming concepts
 │   └── Objects/                        # Object literals, methods, `this` context, DOM rendering
 ├── Practical_Exercises/                # Project labs & interactive mini-apps
@@ -77,7 +81,7 @@ Deals with decision-making and repetitive execution in JavaScript programs.
 | Directory | Key Concepts | Key Files |
 | :--- | :--- | :--- |
 | **`Conditionals/`** | `if`, `else if`, `else`, block scoping, strict (`===`) vs loose (`==`) equality | `js_conditionals.js`, `index.html` |
-| **`Compound_Conditionals/`** | Logical AND (`&&`), OR (`||`), NOT (`!`), operator precedence, double-negation (`!!`) | `compound_conditionals.js`, `index.html` |
+| **`Compound_Conditionals/`** | Logical AND (`&&`), OR (`\|\|`), NOT (`!`), operator precedence, double-negation (`!!`) | `compound_conditionals.js`, `index.html` |
 | **`For_Loops/`** | Loop initialization, condition, increment/decrement, nested loops, multiplication table | `for_loops.js`, `index.html` |
 | **`While_Loops/`** | `while` loop condition evaluation, avoiding infinite loops, random events, `do...while` | `while_loops.js`, `index.html` |
 
@@ -106,14 +110,15 @@ A deep dive into JavaScript's data structures and modern language syntax introdu
 | **`Object_Destructuring/`** | Unpacking object keys, variable renaming, default fallback values, nested unpacking, parameter destructuring. | `const { name: title = 'Default' } = obj;` |
 | **`Spread_Operator/`** | Unpacking iterables on the RHS (`=`), shallow copying arrays/objects, merging, expanding function arguments. | `const copy = [...arr]; Math.max(...nums);` |
 | **`Rest_Pattern/`** | Packing multiple elements on the LHS (`=`), collecting remaining items, variadic functions (`...args`). | `const [first, ...rest] = arr; fn(...args)` |
-| **`Short_Circuiting/`** | Truthy & falsy values, short-circuit evaluation with `||` (first truthy) and `&&` (first falsy). | `const val = input \|\| 'Fallback';` |
+| **`Short_Circuiting/`** | Truthy & falsy values, short-circuit evaluation with `\|\|` (first truthy) and `&&` (first falsy). | `const val = input \|\| 'Fallback';` |
 | **`Nullish_Coalescing/`** | ES2020 `??` operator evaluating only `null` and `undefined`, preserving valid `0`, `""`, and `false`. | `const guests = input ?? 10;` |
 | **`Logical_Assignments/`** | ES2021 combined assignment operators: `\|\|=`, `??=`, and `&&=` for clean state updates. | `obj.guests ??= 10; user &&= anonymize();` |
 | **`Shallow_And_Deep_Copy/`** | Primitive values (call stack) vs reference objects (heap), spread shallow copy vs `structuredClone()`. | `const deep = structuredClone(obj);` |
 | **`Enhanced_Object_Literals/`** | ES6 object enhancements: property shorthand, concise method syntax, and dynamically computed property keys. | `const obj = { [key]: val, prop, method() {} };` |
 | **`Optional_Chaining/`** | ES2020 `?.` operator to safely read deeply nested object properties, invoke optional methods, and access array elements. | `obj?.prop?.subprop; obj.fn?.(); arr?.[0]` |
 | **`Modern_Operators/`** | Looping over object keys, values, and entries via `Object.keys()`, `Object.values()`, and `Object.entries()` with destructuring. | `for (const [key, { open, close }] of Object.entries(obj))` |
-| **`Sets/`** | ES6 `Set` collection for unique values: `.add()`, `.has()`, `.delete()`, `.clear()`, array deduplication with spread, and string analysis. | `const s = new Set(arr); [...new Set(arr)]` |
+| **`Sets/`** | ES6 `Set` collection for unique values: `.add()`, `.has()`, `.delete()`, `.clear()`, array deduplication with spread, string analysis, and ES2024 Set methods (`intersection()`, `union()`, `difference()`, `symmetricDifference()`, `isDisjointFrom()`). | `const s = new Set(arr); s.union(b); s.intersection(b);` |
+| **`Maps/`** | Key-value pairs allowing any data type as key (primitives, objects, arrays, DOM nodes). Chainable `.set()`, `.get()`, `.has()`, `.delete()`, `.size`, `.clear()`, conversion via `new Map(Object.entries(obj))`, and iteration. | `map.set('k', 'v').get('k'); new Map(Object.entries(obj)); [...map]` |
 
 #### 📚 Data Structures Theory & CS Reference Guide (`Data_Structures/README.md`)
 The `Data_Structures/` directory also houses an extensive, in-depth guide (980+ lines) detailing both built-in and abstract computer science data structures with JavaScript implementations:
@@ -123,14 +128,25 @@ The `Data_Structures/` directory also houses an extensive, in-depth guide (980+ 
 
 ---
 
-### 4. Object-Oriented Programming (`OOP/`)
+### 4. Working with Strings (`Working_with_Strings/`)
+Covers string primitives, boxing mechanics, search, substring extraction, transformation, pattern replacement, and validation guard clauses.
+
+- **String Boxing & Indexing**: How JavaScript automatically wraps primitive strings in temporary `String` objects behind the scenes to expose properties (`.length`) and bracket indexing (`str[0]`).
+- **Searching & Substrings**: Finding indices with `.indexOf()` and `.lastIndexOf()`, plus extracting segments with `.slice()` using positive offsets, negative indices, and dynamic boundaries.
+- **Transformations & Normalization**: Case conversion via `.toLowerCase()` and `.toUpperCase()`, passenger name capitalization routines, and sanitizing user inputs using `.trim()`.
+- **String Replacement**: Single-match replacements with `.replace()`, global replacement with `.replaceAll()`, and regular expressions with global flags (`/pattern/g`).
+- **Boolean Guard Checks & Inspection**: Substring inspection using `.includes()`, `.startsWith()`, and `.endsWith()`, demonstrated in practical guard routines such as baggage contraband scanners (`checkBaggage`) and seat assignment classification (`checkMiddleSeat`).
+
+---
+
+### 5. Object-Oriented Programming (`OOP/`)
 Focuses on object modeling, state encapsulation, method definition, and the `this` execution context.
 
 - **`Objects/`**: Models a real-world entity (`backpack`) with internal state (`volume`, `color`, `lidOpen`, `strapLength`) and methods that manipulate properties using `this`. Includes template literal DOM generation to visually reflect state updates in the browser.
 
 ---
 
-### 5. Practical Exercises (`Practical_Exercises/`)
+### 6. Practical Exercises (`Practical_Exercises/`)
 Hands-on interactive projects, laboratory exercises, and real-world coding challenges adapted from *Head First JavaScript Programming* and *The Complete JavaScript Course*.
 
 - **`Battleship/`**: Classic browser guessing game where the user enters cell coordinates via `prompt()` to hunt and sink a 3-cell hidden ship on a 7-cell grid.
@@ -185,6 +201,10 @@ node Data_Structures/Enhanced_Object_Literals/script.js
 node Data_Structures/Optional_Chaining/script.js
 node Data_Structures/Modern_Operators/script.js
 node Data_Structures/Sets/script.js
+# Note: Data_Structures/Maps/index.html demonstrates DOM node keys; open in browser or view with Live Server
+
+# Run String Manipulation exercises
+node Working_with_Strings/script.js
 
 # Run Practical Exercises
 node Practical_Exercises/Car_Factory/aut_o_matic.js
@@ -205,9 +225,10 @@ For the best conceptual build-up, follow this sequential path:
 2. Functions                    ──> Declarations ➔ Expressions ➔ Arrow Functions ➔ Function Composition
 3. Fundamental Data Structures  ──> Arrays ➔ Modifying Arrays ➔ Loops & Arrays ➔ Objects ➔ CS Guide (Stacks, Queues, Lists, Trees)
 4. Modern ES6+ Operators        ──> Destructuring (Array/Object) ➔ Spread ➔ Rest ➔ Short-Circuiting ➔ Nullish Coalescing ➔ Logical Assignment
-5. Advanced ES6+ Features       ──> For...of Iteration ➔ Enhanced Object Literals ➔ Optional Chaining ➔ Object Entries/Keys/Values ➔ Sets
-6. Memory Model & OOP           ──> Shallow vs. Deep Copy (Call Stack vs Heap) ➔ Object-Oriented Methods & `this` Context
-7. Practical Application        ──> Battleship ➔ Car Factory ➔ Bubble Factory ➔ Football Betting Challenges
+5. Advanced ES6+ Collections    ──> For...of Iteration ➔ Enhanced Object Literals ➔ Optional Chaining ➔ Object Iteration ➔ Sets & Maps
+6. Strings & Text Processing    ──> String Boxing ➔ Indexing & Slicing ➔ Casing & Trimming ➔ Regex Replace ➔ Validation Guard Functions
+7. Memory Model & OOP           ──> Shallow vs. Deep Copy (Call Stack vs Heap) ➔ Object-Oriented Methods & `this` Context
+8. Practical Application        ──> Battleship ➔ Car Factory ➔ Bubble Factory ➔ Football Betting Challenges
 ```
 
 ---
