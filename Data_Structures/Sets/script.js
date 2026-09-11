@@ -26,6 +26,31 @@ const openingHours = {
     sun: { open: 0, close: 24 },
 }
 
+// Italian Foods Set
+const italianFoods = new Set([
+    'pasta',
+    'gnocci',
+    'tomatoes',
+    'olive oil',
+    'garlic',
+    'basil',
+    'mozzarella'
+]);
+
+// mexicanFoods Set
+const mexicanFoods = new Set([
+    'tortillas',
+    'beans',
+    'rice',
+    'chilli',
+    'avocado',
+    'tomatoes',
+    'garlic',
+    'cilantro',
+    'lime',
+    'jalapeno'
+]);
+
 
 const restaurant = {
     name: 'Classico Italiano',
@@ -122,3 +147,32 @@ console.log(staffUnique);
 
 // Sets can also be used to count the number of unique letters in a string:
 console.log(new Set('Alexander').size);
+
+
+// Methods used with Sets:
+
+// The intersection method is used to find the common elements between two sets.
+// The result of the intersection method is a new set containing only the elements that are present in both sets.
+const commonFoods = italianFoods.intersection(mexicanFoods);
+console.log('Intersection of both sets:', commonFoods);
+
+// The spread operator can also be used to get the elements from a Set as an array:
+console.log([...commonFoods]);
+
+// The union method is used to find what elements are in the first set or in the second set.
+// The result of the union method is a new set containing all the elements from both sets.
+const italianMexicanFusion = italianFoods.union(mexicanFoods);
+console.log('Union of both sets:', italianMexicanFusion);
+
+// The difference method is used to compare two sets and get the elements that are in the first set but not in the second set.
+const italianOnlyFoods = italianFoods.difference(mexicanFoods);
+console.log('Difference of both sets:', italianOnlyFoods);
+
+// The symmetricDifference method is used to compare two sets and get the elements that are in the first set or in the second set
+// but not in both, i.e. all common elements are removed from both sets.
+const symmetricDifference = italianFoods.symmetricDifference(mexicanFoods);
+console.log('Symmetric difference of both sets:', symmetricDifference);
+
+// To check whether one set is completely different from another set the `isDisjointFrom` method can be used.
+// It returns true if the two sets are disjoint (i.e. they have no elements in common).
+console.log(italianFoods.isDisjointFrom(mexicanFoods));
