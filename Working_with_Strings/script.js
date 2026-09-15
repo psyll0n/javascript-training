@@ -115,7 +115,101 @@ if (plane2.startsWith('Airbus') && plane2.endsWith('neo')) {
   console.log('Part of the new Airbus family'); // Output: Part of the new Airbus family
 }
 
-// Practice exercise - The following function checks if a passenger is allowed on board based
+// The .split() method is used to split a string into an array of strings.
+const stringToSplit = 'this+is+a+test+string';
+console.log(stringToSplit.split('+')); // Output: [ 'this', 'is', 'a', 'test', 'string' ]
+
+// The .join() method is used to join an array of strings into a single string.
+const stringToJoin = ['this', 'is', 'a', 'test', 'string'];
+console.log(stringToJoin.join(' ')); // Output: this is a test string
+
+// Example of using split() and join() to reverse a string.
+const reverseString = function (str) {
+  return str.split('').reverse().join('');
+}
+console.log(reverseString('hello world')); // Output: dlrow olleh
+
+// Split the string into an array of strings and join it back together with different capitalization
+console.log('Alex Yakimov'.split(' ')); // Split the string into an array of strings
+const [firstName, lastName] = 'Alex Yakimov'.split(' ');
+
+// The .join() method is used to join an array of strings into a single string.
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName); // Output: Mr. Alex YAKIMOV
+
+
+// The below function capitalizes the first letter of each word in a string
+const capitalizeName = function (name) {
+  const names = name.split(' '); // Split the string into an array of strings
+  console.log(names); // [ 'jessica', 'ann', 'smith', 'davis' ]
+  const capitalizedNames = [];
+    // Loop through the names array
+    for (const name of names) {
+    // Capitalize the first letter of each word and add it to the capitalizedNames array
+    capitalizedNames.push(name[0].toUpperCase() + name.slice(1));
+  }
+  // Join the capitalizedNames array into a single string
+  console.log(capitalizedNames.join(' '));
+}
+
+// Call the function with different arguments
+capitalizeName('jessica ann smith davis'); // Jessica Ann Smith Davis
+capitalizeName('jonas schmidt'); // Jonas Schmidt
+
+// Similarly, the below function capitalizes the first letter of each word in a string
+const nameCapitalization = function (name) {
+  const names = name.split(' '); // Split the string into an array of strings
+  const capitalizedNames = [];
+
+  // Loop through the names array
+  for (const n of names) {
+    // Replace the first letter of each word with its uppercase version and add it to the capitalizedNames array
+    capitalizedNames.push(n.replace(n[0], n[0].toUpperCase()));
+  }
+
+  // Join the capitalizedNames array into a single string
+  console.log(capitalizedNames.join(' '));
+}
+
+// Call the function with different arguments
+nameCapitalization('jessica ann smith davis'); // Jessica Ann Smith Davis
+nameCapitalization('jonas schmidt'); // Jonas Schmidt
+
+// Padding a string to a certain length using padStart() and padEnd()
+// The padStart() method pads the current string with another string (multiple times, if needed)
+// until the resulting string reaches the given length. The padding is applied from the start of the string.
+const message = 'Go to gate 23!';
+console.log(message.padStart(25, '+')); // Output: +++++++Go to gate 23!
+
+const message1 = 'Go to gate 23!';
+console.log(message1.padEnd(25, '+')); // Output: Go to gate 23!+++++++  
+
+
+// The below function masks the credit card number by replacing the first
+// 12 characters with asterisks. It uses the slice() method to get the last
+// 4 characters of the string and the padStart() method to pad the resulting
+// string with asterisks to the original length of the string.
+const maskCreditCard = function(number) {
+  const str = String(number);
+  const last = str.slice(-4);
+  return last.padStart(str.length, '*');
+}
+
+console.log(maskCreditCard(3526499473927262)); // Output: ************7262
+console.log(maskCreditCard('01048587302930590')); // Output: ************30590
+console.log(maskCreditCard('257494729572747')); // Output: ************72747
+console.log(maskCreditCard(9484848747482947)); // Output: ************2947
+
+// The repeat() method is used to repeat a string a certain number of times.
+// The below function logs the message announcement 5 times.
+const messageAnnouncement = "Bad weather... All departures delayed to 6 PM";
+console.log(messageAnnouncement.repeat(5)); // Output: Bad weather... All departures delayed to 6 PMBad weather... All departures delayed to 6 PMBad weather... All departures delayed to 6 PMBad weather... All departures delayed to 6 PMBad weather... All departures delayed to 6 PM
+
+
+// Practice exercises 
+
+
+// The following function checks if a passenger is allowed on board based
 // on the items they have in their baggage.
 const checkBaggage = function (items) {
   const baggage = items.toLowerCase(); // Convert to lowercase
@@ -123,9 +217,35 @@ const checkBaggage = function (items) {
     console.log('You are not allowed on board');
   } else {
     console.log('Welcome aboard!');
+    }
   }
-}
 
+
+// Call the function with different arguments
 checkBaggage('I have a laptop, some Food and a pocket Knife'); // Output: You are not allowed on board
 checkBaggage('Socks and camera'); // Output: Welcome aboard!
 checkBaggage('Got some snacks and a pocket knife'); // Output: You are not allowed on board
+
+
+// The string below contains flight information in a format that needs to be parsed and displayed in a more readable format. 
+// The '+' sign is used to separate the flight information and the '_' sign is used to separate the flight information from the time. 
+const flights = 
+  'Delayed_Departure;fao93766109;lhr99374992;11:25+_Arrival;bru2510424442090;jfk2131213131312;11:45+_Arrival;hel7430343321324;jfk2131213131312;12:05+_Departure;lhr2131213123121;jfk2131213131312;12:30';
+
+
+// Write your code here
+// The `slice()` method is used to get the first 3 characters of the string and the `toUpperCase()` method is used to convert them to uppercase.
+const getCode = str => str.slice(0,3).toUpperCase();
+
+// The `for of` loop is then used to iterate over each flight string in the array. Then, we split each flight string into an array of flight information using the split() method with ';' as the delimiter. Finally, we log each flight information to the console.
+for (const flight of flights.split('+')) {
+  const [type, from, to, time] = flight.split(';');
+  const output = `${type.startsWith('Delayed') ? '⚠' : ''} ${type.replaceAll('_', ' ')} ${getCode(from)} ${getCode(to)} ${time}`.padStart(36, ' ');
+  console.log(output);  
+}
+
+// Output: 
+//  ⚠  Delayed Departure FAO  LHR    11:25
+//               Arrival   BRU  JFK   11:45
+//               Arrival   HEL  JFK   12:05
+//               Departure LHR  JFK   12:30
