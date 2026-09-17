@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Immediately Invoked Function Expressions — IIFE</title>
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <!-- Ambient Decorative Background -->
+  <div class="background-decorations" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <main class="app-container">
+    <!-- Header Section -->
+    <header class="app-header">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        JavaScript ES6+ Deep Dive
+      </div>
+      <h1 class="main-title">Immediately Invoked Function Expressions</h1>
+      <p class="subtitle">
+        Mastering immediate execution, lexical scope isolation, and data privacy with
+        <code class="code-pill">(function () { ... })();</code>
+      </p>
+
+      <div class="console-notice">
+        <span class="console-icon">💻</span>
+        <span class="console-text">
+          Outputs are logged to both the interactive live terminal below and your browser developer console (<kbd>F12</kbd> or <kbd>Ctrl+Shift+I</kbd>).
+        </span>
+      </div>
+    </header>
+
+    <!-- Interactive Demos Grid -->
+    <section class="interactive-grid" aria-label="Interactive Demos">
+      <!-- Card 1: Module Pattern / Encapsulation -->
+      <div class="card demo-card">
+        <div class="card-header">
+          <div class="card-icon-wrap lock-icon" aria-hidden="true">🔐</div>
+          <div class="card-title-group">
+            <h2 class="card-title">The Module Pattern</h2>
+            <span class="card-tag tag-purple">Private Scope &amp; Closures</span>
+          </div>
+        </div>
+        <p class="card-desc">
+          An IIFE returns a public interface while keeping internal state strictly private in closure. Outside code cannot alter or access the private variables directly.
+        </p>
+
+        <!-- Counter Display -->
+        <div class="counter-display-wrapper">
+          <div class="counter-display">
+            <span class="counter-label">Encapsulated Value</span>
+            <span class="counter-value" id="counterDisplay">0</span>
+          </div>
+          <div class="counter-status" id="counterStatus">
+            <span class="status-indicator"></span>
+            <span id="counterStatusText">Private state initialized</span>
+          </div>
+        </div>
+
+        <div class="action-wrapper counter-actions">
+          <button type="button" class="btn btn-primary" id="btnIncrement">Increment (+1)</button>
+          <button type="button" class="btn btn-secondary" id="btnDecrement">Decrement (-1)</button>
+          <button type="button" class="btn btn-secondary" id="btnReset">Reset (0)</button>
+          <button type="button" class="btn btn-warning" id="btnInspect">Inspect Private State</button>
+        </div>
+      </div>
+
+      <!-- Card 2: Classic Loop Closure Issue -->
+      <div class="card demo-card">
+        <div class="card-header">
+          <div class="card-icon-wrap loop-icon" aria-hidden="true">🔄</div>
+          <div class="card-title-group">
+            <h2 class="card-title">Loop Closure Trap</h2>
+            <span class="card-tag tag-cyan">var vs. IIFE vs. let</span>
+          </div>
+        </div>
+        <p class="card-desc">
+          Before block-scoped <code>let</code>, <code>var</code> in asynchronous loops shared a single mutable binding, causing all callbacks to see the final value. An IIFE solves this by capturing each loop iteration's value in a distinct scope.
+        </p>
+
+        <div class="loop-result-container" id="loopResults">
+          <div class="loop-result-placeholder">Click a button below to trigger loop callbacks</div>
+        </div>
+
+        <div class="action-wrapper">
+          <button type="button" class="btn btn-danger" id="btnLoopVar">Run with var (Bug)</button>
+          <button type="button" class="btn btn-primary" id="btnLoopIIFE">Fix with IIFE</button>
+          <button type="button" class="btn btn-emerald" id="btnLoopLet">Modern let (ES6)</button>
+        </div>
+      </div>
+
+      <!-- Card 3: Async IIFE -->
+      <div class="card demo-card">
+        <div class="card-header">
+          <div class="card-icon-wrap async-icon" aria-hidden="true">⚡</div>
+          <div class="card-title-group">
+            <h2 class="card-title">Async IIFE Routine</h2>
+            <span class="card-tag tag-emerald">Top-Level Await Pattern</span>
+          </div>
+        </div>
+        <p class="card-desc">
+          Async IIFEs allow executing asynchronous code immediately with <code>await</code>, encapsulated error handling with <code>try...catch</code>, and safe initialization of dynamic resources.
+        </p>
+
+        <div class="async-card-preview" id="asyncPreview">
+          <div class="async-state-idle" id="asyncState">Ready to fetch and initialize system profile...</div>
+        </div>
+
+        <div class="action-wrapper">
+          <button type="button" class="btn btn-emerald" id="btnAsyncIIFE">Execute Async IIFE</button>
+        </div>
+      </div>
+
+      <!-- Card 4: One-Time Computation & Config -->
+      <div class="card demo-card">
+        <div class="card-header">
+          <div class="card-icon-wrap config-icon" aria-hidden="true">⚙️</div>
+          <div class="card-title-group">
+            <h2 class="card-title">Immutable Configuration</h2>
+            <span class="card-tag tag-amber">Return Value Pattern</span>
+          </div>
+        </div>
+        <p class="card-desc">
+          Use an IIFE to perform complex setup calculations once, return a frozen configuration object, and cleanly discard all temporary calculation variables from memory.
+        </p>
+
+        <div class="config-display" id="configDisplay">
+          <pre><code id="configCode">// Click below to inspect the frozen configuration object</code></pre>
+        </div>
+
+        <div class="action-wrapper">
+          <button type="button" class="btn btn-primary" id="btnLoadConfig">Inspect App Config</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Output Console Section -->
+    <section class="console-section" aria-label="Live Execution Terminal">
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <div class="terminal-controls" aria-hidden="true">
+            <span class="terminal-btn close"></span>
+            <span class="terminal-btn minimize"></span>
+            <span class="terminal-btn expand"></span>
+          </div>
+          <div class="terminal-title">
+            <span class="terminal-pulse"></span>
+            Live Execution Terminal
+          </div>
+          <div class="terminal-actions">
+            <button type="button" class="terminal-action-btn" id="btnClearTerminal" title="Clear terminal">Clear</button>
+          </div>
+        </div>
+        <div class="terminal-body" id="terminalOutput" role="log" aria-live="polite">
+          <div class="terminal-line info-line">
+            <span class="terminal-time">[INIT]</span>
+            <span class="terminal-text">IIFE training runtime initialized. Check out the execution logs below.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Syntax & Concepts Reference -->
+    <section class="concepts-section" aria-label="Syntax &amp; Methods Reference">
+      <h2 class="section-title">Syntax Variants &amp; Best Practices</h2>
+      <div class="concepts-grid">
+        <div class="concept-card">
+          <div class="concept-header">
+            <code class="concept-name">(function () { ... })();</code>
+            <span class="concept-badge">Standard</span>
+          </div>
+          <p class="concept-text">
+            The canonical IIFE syntax. Outer parentheses force the parser into an <strong>expression</strong> context so the trailing invocation parentheses immediately execute it.
+          </p>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-header">
+            <code class="concept-name">(function () { ... }());</code>
+            <span class="concept-badge">Crockford</span>
+          </div>
+          <p class="concept-text">
+            Douglas Crockford's style, wrapping both the function and its invocation parentheses inside the grouping operator to make the immediate execution visually explicit.
+          </p>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-header">
+            <code class="concept-name">(() => { ... })();</code>
+            <span class="concept-badge">ES6 Arrow</span>
+          </div>
+          <p class="concept-text">
+            Modern arrow function syntax. Concise, does not bind its own <code>this</code> or <code>arguments</code>, and executes immediately.
+          </p>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-header">
+            <code class="concept-name">!function () { ... }();</code>
+            <span class="concept-badge">Unary Operator</span>
+          </div>
+          <p class="concept-text">
+            Prefix operators like <code>!</code>, <code>+</code>, <code>-</code>, or <code>void</code> turn the function into an expression without leading parentheses. Often generated by minifiers.
+          </p>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-header">
+            <code class="concept-name">(function (win, doc) { })(window, document)</code>
+            <span class="concept-badge">Parameter Passing</span>
+          </div>
+          <p class="concept-text">
+            Passes global objects into local parameters. This speeds up variable resolution, allows minifiers to shorten names to single characters, and prevents global namespace collision.
+          </p>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-header">
+            <code class="concept-name">const res = (function () { return val; })();</code>
+            <span class="concept-badge">Return Value</span>
+          </div>
+          <p class="concept-text">
+            Evaluates complex multi-line logic and assigns only the returned result to a variable, discarding all intermediary scratch variables from memory immediately.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>

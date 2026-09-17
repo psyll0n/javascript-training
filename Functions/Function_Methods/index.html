@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Function Methods — Call, Apply &amp; Bind</title>
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <!-- Ambient Decorative Background -->
+  <div class="background-decorations" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <main class="app-container">
+    <!-- Header Section -->
+    <header class="app-header">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        JavaScript ES6+ Deep Dive
+      </div>
+      <h1 class="main-title">Function Methods</h1>
+      <p class="subtitle">
+        Mastering execution context &amp; explicit binding with
+        <code class="code-pill">call()</code>,
+        <code class="code-pill">apply()</code>, and
+        <code class="code-pill">bind()</code>
+      </p>
+
+      <div class="console-notice">
+        <span class="console-icon">💻</span>
+        <span class="console-text">
+          Open the browser developer console (<kbd>F12</kbd> or <kbd>Ctrl+Shift+I</kbd>) to inspect live outputs and flight logs.
+        </span>
+      </div>
+    </header>
+
+    <!-- Interactive Grid -->
+    <section class="interactive-grid" aria-label="Interactive Demos">
+      <!-- Card 1: Airline Fleet Management -->
+      <div class="card demo-card">
+        <div class="card-header">
+          <div class="card-icon-wrap plane-icon" aria-hidden="true">✈️</div>
+          <div class="card-title-group">
+            <h2 class="card-title">Flight Fleet Manager</h2>
+            <span class="card-tag tag-bind">bind() Demo</span>
+          </div>
+        </div>
+        <p class="card-desc">
+          Uses <code>lufthansa.buyPlane.bind(lufthansa)</code> to preserve the airline object context when invoked by a DOM click listener.
+        </p>
+        <div class="action-wrapper">
+          <button class="buy">Buy New Plane ✈️</button>
+        </div>
+      </div>
+
+      <!-- Card 2: Interactive Poll -->
+      <div class="card demo-card">
+        <div class="card-header">
+          <div class="card-icon-wrap poll-icon" aria-hidden="true">🗳️</div>
+          <div class="card-title-group">
+            <h2 class="card-title">Interactive Poll</h2>
+            <span class="card-tag tag-call">call() &amp; bind() Demo</span>
+          </div>
+        </div>
+        <p class="card-desc">
+          Triggers a prompt dialog to vote for your favorite programming language, updates votes, and displays results using explicit context.
+        </p>
+        <div class="action-wrapper">
+          <button class="poll">Answer Poll 🗳️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Methods Reference Overview -->
+    <section class="concepts-section" aria-label="Methods Reference">
+      <h2 class="section-title">Methods Overview</h2>
+      <div class="concepts-grid">
+        <div class="concept-card">
+          <div class="concept-header">
+            <code class="concept-name">fn.call(thisArg, ...args)</code>
+            <span class="concept-badge">Immediate</span>
+          </div>
+          <p class="concept-text">
+            Invokes function immediately with custom <code>this</code>. Arguments passed comma-separated.
+          </p>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-header">
+            <code class="concept-name">fn.apply(thisArg, [args])</code>
+            <span class="concept-badge">Immediate</span>
+          </div>
+          <p class="concept-text">
+            Invokes function immediately with custom <code>this</code>. Arguments passed as an array.
+          </p>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-header">
+            <code class="concept-name">fn.bind(thisArg, ...args)</code>
+            <span class="concept-badge">Deferred</span>
+          </div>
+          <p class="concept-text">
+            Returns a new function with pre-bound <code>this</code> and optional preset arguments for later invocation.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>
