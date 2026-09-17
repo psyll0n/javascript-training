@@ -25,9 +25,13 @@ javascript-training/
 │   ├── Compound_Conditionals/          # Boolean logic, AND (&&), OR (||), NOT (!)
 │   ├── For_Loops/                      # Counter loops, countdowns, nested multiplication tables
 │   └── While_Loops/                    # while conditions, dynamic dice roll simulations, do...while
-├── Functions/                          # Function declarations, expressions, arrow functions, composition
-│   ├── index.html                      # HTML test runner
-│   └── js_functions.js                 # Complete function paradigms and multi-tier oven controller
+├── Functions/                          # Function paradigms, parameters, closures, HOFs, execution contexts & IIFEs
+│   ├── Functions_Intro/                # Declarations, expressions, arrow functions, composition & oven controller
+│   ├── Default_Parameters/             # ES6 default parameter initializers, pass-by-value vs pass-by-reference
+│   ├── Higher_Order_Functions/         # First-class vs higher-order functions, callback abstraction & transformers
+│   ├── Functions_Returning_Functions/  # Closures, lexical scope retention, currying & nested arrow functions
+│   ├── Function_Methods/               # Explicit `this` binding (call, apply, bind), partial application & Poll app
+│   └── IIFE/                           # Immediately Invoked Function Expressions, module pattern, loop closure & async IIFE
 ├── Data_Structures/                    # Core data structures, modern ES6+ operators & reference guide
 │   ├── Arrays/                         # Array literals, indexing, .length, ES2022 .at()
 │   ├── Modifying_Arrays/               # Mutating (push, pop, splice) vs non-mutating (slice, includes)
@@ -47,9 +51,9 @@ javascript-training/
 │   ├── Sets/                           # ES6 Set collection: uniqueness, operations, deduplication & Set methods
 │   ├── Maps/                           # Key-value hash maps with arbitrary keys, chaining, iteration & object conversion
 │   └── README.md                       # Comprehensive guide: primitive & non-primitive data structures
-├── Working_with_Strings/               # Primitive strings, boxing, search, slice, casing, regex & normalization
+├── Working_with_Strings/               # Strings, boxing, slicing, casing, regex, padding, split/join & flight parser
 │   ├── index.html                      # HTML test runner
-│   └── script.js                       # String indexing, slicing, casing, regex replace, normalization & validation
+│   └── script.js                       # String indexing, slicing, casing, regex replace, padding, masking, split/join & flight parser
 ├── OOP/                                # Object-Oriented Programming concepts
 │   └── Objects/                        # Object literals, methods, `this` context, DOM rendering
 ├── Practical_Exercises/                # Project labs & interactive mini-apps
@@ -88,12 +92,78 @@ Deals with decision-making and repetitive execution in JavaScript programs.
 ---
 
 ### 2. Functions (`Functions/`)
-Covers the three ways to declare functions in JavaScript, parameter handling, return statements, and calling functions within functions.
+Covers the complete JavaScript function ecosystem—from basic definitions, parameter defaults, and execution mechanics to advanced runtime contexts (`this`), higher-order functional patterns, lexical closures, currying, and encapsulation paradigms.
 
-- **Function Declarations**: Hoisted functions that can be called before their definition line.
-- **Function Expressions**: Anonymous functions stored in variables (not hoisted).
-- **Arrow Functions (ES6)**: Concise syntax with implicit returns and lexical `this` binding.
-- **Function Composition**: Demonstrates modular decomposition where high-level functions (`bake`) orchestrate low-level hardware controllers (`setOvenMode`, `setOvenTemperature`).
+| Module | Description | Key Concepts & Syntax |
+| :--- | :--- | :--- |
+| **`Functions_Intro/`** | Core definitions, hoisting semantics, and functional decomposition. | Function declarations (hoisted), expressions (`const fn = function()`), arrow functions (`=>`), functional composition (`cutFruitPieces` ➔ `fruitProcessor`, multi-tier oven controller). |
+| **`Default_Parameters/`** | ES6 default parameters, dynamic expressions, and memory semantics. | Call-time evaluation (`price = 199 * num`), skipping with `undefined`, pass-by-value (primitives) vs pass-by-reference (heap objects), mutable argument side effects. |
+| **`Higher_Order_Functions/`** | First-class functions, higher-order abstractions, and callbacks. | First-class citizenship (functions as data), callback abstraction (`transformer`, `upperFirstWord`, `oneWord`), built-in HOFs (`addEventListener`, `forEach`), function `.name` property. |
+| **`Functions_Returning_Functions/`** | Inner functions, lexical scope preservation, and currying. | Closures retaining outer variable environment, curried function calls (`greet('Hi')('Alex')`), concise arrow currying (`greeting => name => ...`). |
+| **`Function_Methods/`** | Explicit `this` binding, method borrowing, and partial application. | Explicit context invocation with `call()` and `apply()`, modern `call(thisArg, ...args)`, `bind()` for delayed execution & DOM events, partial application (`addTax.bind(null, 0.23)`), interactive Poll app challenge. |
+| **`IIFE/`** | Immediately Invoked Function Expressions, data privacy, and modern patterns. | Grouping parentheses `(function() {})()`, Crockford syntax, unary operators (`!`, `+`, `void`), parameter passing & scope aliasing, returning frozen objects (`Object.freeze`), Revealing Module Pattern (`safeCounterModule`), solving pre-ES6 loop closure bug (`var` vs IIFE vs block-scoped `let`), top-level async IIFE with `await`, interactive UI dashboard. |
+
+#### Detailed Topic Breakdown:
+
+- **Functions Intro (`Functions_Intro/`)**:
+  - **Function Declarations**: Hoisted functions that can be called before their definition line in the code.
+  - **Function Expressions**: Anonymous or named functions stored inside variables; not hoisted and bound to runtime evaluation.
+  - **Arrow Functions (ES6)**: Concise syntax with implicit returns for one-liners and lexical `this` binding (inheriting `this` from the surrounding parent scope).
+  - **Function Composition**: Modular decomposition where high-level orchestration functions (e.g., `bake`, `fruitProcessor`) call low-level specialized helpers (`setOvenMode`, `setOvenTemperature`, `cutFruitPieces`).
+
+- **Default Parameters & Memory Model (`Default_Parameters/`)**:
+  - **ES6 Default Parameters**: Specifying fallback values directly in parameter lists (`numOfPassengers = 10`), evaluated sequentially at runtime.
+  - **Dynamic Default Expressions**: Computing defaults based on earlier parameters (`price = 199 * numOfPassengers`).
+  - **Skipping with `undefined`**: Passing `undefined` to preserve default values without manual fallback logic.
+  - **Pass-by-Value vs. Pass-by-Reference**:
+    - **Primitives**: Passed by value (copied on the call stack); modifying them inside a function does not affect the original variable.
+    - **Reference Types**: Objects and arrays are passed by reference (pointers to memory heap addresses); modifying object properties inside a function mutates the original object. Demonstrated through real-world passenger check-in and passport number reissuance (`checkIn`, `newPassport`).
+
+- **Higher-Order Functions & Callbacks (`Higher_Order_Functions/`)**:
+  - **First-Class Functions**: JavaScript treats functions as first-class citizens (functions are values that can be stored in variables, passed into other functions, or returned from functions).
+  - **Higher-Order Functions (HOF)**: Functions that accept callback functions as arguments (e.g., `transformer(str, fn)`, `document.body.addEventListener('click', fn)`, `[...].forEach(fn)`) or return functions.
+  - **Callback Abstraction**: Separating generic workflow logic from domain-specific transformations (e.g., passing `upperFirstWord` or `oneWord` into a higher-order string `transformer`).
+  - **Function Introspection**: Accessing built-in function properties such as `fn.name` to track and log execution paths dynamically.
+
+- **Closures & Functions Returning Functions (`Functions_Returning_Functions/`)**:
+  - **Lexical Closures**: An inner function permanently remembers and maintains access to all variables from its parent lexical environment, even long after the outer function has executed and popped off the call stack.
+  - **Function Factories & Currying**: Creating specialized functions configured with pre-set context (`const greeting = greet('Hello'); greeting('Alex');`).
+  - **Arrow Function Currying**: Clean, expressive chained arrow syntax for multi-tier functions:
+    ```javascript
+    const greetArrow = greeting => name => console.log(`${greeting}, ${name}`);
+    greetArrow('Good Morning')('Alex');
+    ```
+
+- **Function Methods & Explicit Context (`Function_Methods/`)**:
+  - **Explicit `this` Binding**: Overriding default `this` resolution using `.call()`, `.apply()`, and `.bind()`.
+  - **Method Borrowing**: Reusing methods defined in one object across other objects without code duplication (borrowing `lufthansa.book` for `eurowings` and `swiss`).
+  - **`call` vs `apply` vs Spread**: `.call(thisArg, arg1, arg2)` takes arguments individually; `.apply(thisArg, [arg1, arg2])` takes an array. In modern ES6+, `.call(thisArg, ...args)` replaces `.apply()` entirely.
+  - **The `bind` Method**: Returns a new function with `this` permanently bound to a given object without immediate execution. Essential for DOM event handlers (`button.addEventListener('click', lufthansa.buyPlane.bind(lufthansa))`).
+  - **Partial Application**: Pre-specifying initial arguments using `.bind(null, fixedArg)` to produce specialized utilities (e.g., generating fixed 23% VAT calculators: `const addVAT = addTax.bind(null, 0.23)` vs higher-order factory `addTaxRate(0.23)`).
+  - **Coding Challenge (Interactive Poll Application)**: Full-featured challenge storing questions, options, and vote tallies, utilizing `prompt()` validation, answer registration, dynamic result rendering, and method borrowing for external test datasets via `poll.displayResults.call({ answers: [5, 2, 3] })`.
+
+- **Immediately Invoked Function Expressions (`IIFE/`)**:
+  - **Execution Mechanics**: Functions wrapped in grouping parentheses `(function () { ... })();` or arrow format `(() => { ... })();` that execute immediately upon definition.
+  - **Syntax Variations**: Douglas Crockford convention `(function () { ... }());` and unary operator prefixes (`!function(){}()`, `+function(){}()`, `void function(){}()`) that force expression context.
+  - **Parameter Passing & Global Aliasing**: Injecting parameters (`(function(appName, env){ ... })('App', 'prod')`) and safely aliasing globals (`window`/`globalThis`) for performance, security, and minification.
+  - **One-Time Calculation & Immutability**: Executing complex initialization code once and returning sealed/frozen configuration objects (`Object.freeze(...)`).
+  - **The Revealing Module Pattern**: Classical data privacy and encapsulation in JavaScript prior to private class fields (`#`), creating private variables (`let privateCount`) closed over by an exported public API object (`safeCounterModule`).
+  - **Asynchronous Loop Closure Problem**: In-depth analysis of the classic loop bug:
+    - `var`: Single shared mutable variable binding across iterations causing delayed callbacks (`setTimeout`) to log the terminal loop value (`4, 4, 4`).
+    - `IIFE`: Passing `i` into an immediately invoked closure to lock in each iteration's value in a distinct lexical environment (`1, 2, 3`).
+    - `let`: Modern ES6 block-scoping where JavaScript automatically creates a fresh binding for each loop iteration.
+  - **Async IIFE**: Leveraging top-level asynchronous workflows with `await` and comprehensive `try...catch` error handling:
+    ```javascript
+    (async () => {
+      try {
+        const res = await fetchData();
+        console.log(res);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+    ```
+  - **Interactive Browser UI & Dashboard**: Accompanied by a dedicated dark-mode interactive test harness (`index.html` & `style.css`) featuring a live simulated terminal log, animated counter module, async execution simulator, and loop execution visualizer.
 
 ---
 
@@ -129,13 +199,17 @@ The `Data_Structures/` directory also houses an extensive, in-depth guide (980+ 
 ---
 
 ### 4. Working with Strings (`Working_with_Strings/`)
-Covers string primitives, boxing mechanics, search, substring extraction, transformation, pattern replacement, and validation guard clauses.
+Covers string primitives, internal boxing mechanics, search algorithms, substring extraction, transformations, regular expression pattern replacement, character padding, masking, and real-world table parsing.
 
-- **String Boxing & Indexing**: How JavaScript automatically wraps primitive strings in temporary `String` objects behind the scenes to expose properties (`.length`) and bracket indexing (`str[0]`).
-- **Searching & Substrings**: Finding indices with `.indexOf()` and `.lastIndexOf()`, plus extracting segments with `.slice()` using positive offsets, negative indices, and dynamic boundaries.
-- **Transformations & Normalization**: Case conversion via `.toLowerCase()` and `.toUpperCase()`, passenger name capitalization routines, and sanitizing user inputs using `.trim()`.
-- **String Replacement**: Single-match replacements with `.replace()`, global replacement with `.replaceAll()`, and regular expressions with global flags (`/pattern/g`).
-- **Boolean Guard Checks & Inspection**: Substring inspection using `.includes()`, `.startsWith()`, and `.endsWith()`, demonstrated in practical guard routines such as baggage contraband scanners (`checkBaggage`) and seat assignment classification (`checkMiddleSeat`).
+- **String Boxing & Indexing**: How JavaScript automatically wraps primitive strings in temporary `String` objects behind the scenes to expose methods and properties (`.length`, bracket indexing `str[0]`).
+- **Searching & Substrings**: Finding indices with `.indexOf()` and `.lastIndexOf()`, plus extracting segments with `.slice()` using positive offsets, negative indices (`str.slice(-2)`), and dynamic boundaries (`airline.slice(0, airline.indexOf(' '))`). Includes seat assignment classification logic (`checkMiddleSeat`).
+- **Transformations & Normalization**: Case conversion via `.toLowerCase()` and `.toUpperCase()`, multi-word capitalization routines, and sanitizing user inputs using `.trim()` for authentication workflows.
+- **String Replacement & Regular Expressions**: Single-match replacements with `.replace()`, global replacement with `.replaceAll()`, and regular expressions with global flags (`/door/g`), applied to currency conversion and flight boarding announcements.
+- **Boolean Guard Checks & Inspection**: Substring inspection using `.includes()`, `.startsWith()`, and `.endsWith()`, demonstrated in practical security guard routines such as baggage contraband inspection (`checkBaggage`).
+- **String Splitting & Joining**: Converting between strings and arrays via `.split(delimiter)` and `.join(separator)`, array destructuring with split (`const [firstName, lastName] = str.split(' ')`), reversing words, and proper capitalization pipelines (`capitalizeName`).
+- **Padding & Data Masking**: Aligning output and formatting fixed-length text with `.padStart()` and `.padEnd()`, including a real-world credit card masking algorithm (`maskCreditCard`) that hides sensitive digits except the last 4.
+- **Pattern Repetition**: Repeating string sequences with `.repeat()` for visual dividers and message broadcasts.
+- **Real-World Challenge: Flight Data Formatter**: Parsing unstructured, multi-delimited flight schedule strings (`Delayed_Departure;fao93766109;...`), extracting uppercase 3-letter airport codes (`getCode`), attaching status icons (`⚠`), and generating clean, right-aligned tabular console output via `.padStart()`.
 
 ---
 
@@ -190,6 +264,14 @@ You can run any `.js` file directly from your terminal using `node`:
 node Control_Flow/Conditionals/js_conditionals.js
 node Control_Flow/For_Loops/for_loops.js
 
+# Run Functions exercises
+node Functions/Functions_Intro/script.js
+node Functions/Functions_Returning_Functions/script.js
+node Functions/IIFE/script.js
+# Note: Functions/Default_Parameters/script.js, Functions/Higher_Order_Functions/script.js,
+# Functions/Function_Methods/script.js, and Functions/IIFE/index.html include interactive DOM features,
+# prompts, alerts, and live terminals; open their index.html in a browser or launch with Live Server.
+
 # Run Data Structures & Modern Operators
 node Data_Structures/Arrays/arrays.js
 node Data_Structures/Spread_Operator/spread_operator.js
@@ -203,7 +285,7 @@ node Data_Structures/Modern_Operators/script.js
 node Data_Structures/Sets/script.js
 # Note: Data_Structures/Maps/index.html demonstrates DOM node keys; open in browser or view with Live Server
 
-# Run String Manipulation exercises
+# Run String Manipulation exercises & Flight Data Formatter
 node Working_with_Strings/script.js
 
 # Run Practical Exercises
@@ -222,13 +304,13 @@ For the best conceptual build-up, follow this sequential path:
 
 ```text
 1. Control Flow & Operators     ──> Conditionals ➔ Compound Conditionals ➔ For Loops ➔ While Loops
-2. Functions                    ──> Declarations ➔ Expressions ➔ Arrow Functions ➔ Function Composition
+2. Functions & Execution Model  ──> Declarations & Expressions ➔ Arrow Functions ➔ Default Parameters ➔ First-Class & Higher-Order ➔ Closures & Currying ➔ call, apply, bind ➔ IIFE & Module Pattern
 3. Fundamental Data Structures  ──> Arrays ➔ Modifying Arrays ➔ Loops & Arrays ➔ Objects ➔ CS Guide (Stacks, Queues, Lists, Trees)
 4. Modern ES6+ Operators        ──> Destructuring (Array/Object) ➔ Spread ➔ Rest ➔ Short-Circuiting ➔ Nullish Coalescing ➔ Logical Assignment
 5. Advanced ES6+ Collections    ──> For...of Iteration ➔ Enhanced Object Literals ➔ Optional Chaining ➔ Object Iteration ➔ Sets & Maps
-6. Strings & Text Processing    ──> String Boxing ➔ Indexing & Slicing ➔ Casing & Trimming ➔ Regex Replace ➔ Validation Guard Functions
-7. Memory Model & OOP           ──> Shallow vs. Deep Copy (Call Stack vs Heap) ➔ Object-Oriented Methods & `this` Context
-8. Practical Application        ──> Battleship ➔ Car Factory ➔ Bubble Factory ➔ Football Betting Challenges
+6. Strings & Text Processing    ──> Boxing & Indexing ➔ Slicing & Searching ➔ Casing & Trimming ➔ Regex & ReplaceAll ➔ Split & Join ➔ Padding & Masking ➔ Flight Data Formatter
+7. Memory Model & OOP           ──> Pass-by-Value vs. Pass-by-Reference (Call Stack vs Heap) ➔ Object-Oriented Methods & `this` Context
+8. Practical Application        ──> Battleship ➔ Car Factory ➔ Bubble Factory ➔ Football Betting Challenges ➔ Interactive Poll App & IIFE Dashboard
 ```
 
 ---
